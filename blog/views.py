@@ -22,12 +22,11 @@ def post_detail(request, slug):
 
     ``post``
         An instance of :model:`blog.Post`
-    
+
     **Template:**
 
     :template:`blog/post_detail.html`
     """
-
 
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
@@ -59,6 +58,7 @@ def post_detail(request, slug):
         },
     )
 
+
 def comment_edit(request, slug, comment_id):
     """
     view to edit comments
@@ -77,9 +77,11 @@ def comment_edit(request, slug, comment_id):
             comment.save()
             messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
         else:
-            messages.add_message(request, messages.ERROR, 'Error updating comment!')
+            messages.add_message(request, messages.ERROR,
+                                 'Error updating comment!')
 
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+
 
 def comment_delete(request, slug, comment_id):
     """
@@ -93,7 +95,7 @@ def comment_delete(request, slug, comment_id):
         comment.delete()
         messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
     else:
-        messages.add_message(request, messages.Error, 'You can only delete your own comments!')
-    
-    return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+        messages.add_message(request, messages.ERROR,
+                             'You can only delete your own comments!')
 
+    return HttpResponseRedirect(reverse('post_detail', args=[slug]))
